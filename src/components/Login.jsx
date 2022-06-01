@@ -3,15 +3,33 @@ import React from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
+// import { FcGoogle } from "react-icons/fc";
+
+import { client } from "../client";
 
 // @ts-ignore
 import shareVideo from "../assets/share.mp4";
+// @ts-ignore
 import logo from "../assets/logowhite.png";
 
 const Login = () => {
+  const navigate = useNavigate();
   const responseGoogle = (response) => {
-    console.log(response);
+    const result = jwt_decode(response?.credential);
+    // @ts-ignore
+    console.log(result);
+    localStorage.setItem("user", JSON.stringify(result));
+    const { name, picture, sub } = result;
+    const doc = {
+      _id: sub,
+      _type: "user",
+      username: name,
+      image: picture,
+    };
+
+    client.createIfNotExists(doc).then(() => {
+      navigate("/", { replace: true });
+    });
   };
 
   return (
@@ -52,10 +70,7 @@ const Login = () => {
             /> */}
 
             <GoogleLogin
-              onSuccess={(response) => {
-                const result = jwt_decode(response?.credential);
-                console.log(result?.name);
-              }}
+              onSuccess={responseGoogle}
               onError={() => {
                 console.log("Login Failed");
               }}
