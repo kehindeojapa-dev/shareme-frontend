@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React from "react";
 // import GoogleLogin from "react-google-login";
 import { GoogleLogin } from "@react-oauth/google";
@@ -7,9 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 import { client } from "../client";
 
-// @ts-ignore
 import shareVideo from "../assets/share.mp4";
-// @ts-ignore
 import logo from "../assets/logowhite.png";
 
 const Login = () => {
