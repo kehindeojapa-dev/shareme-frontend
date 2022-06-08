@@ -32,7 +32,7 @@ const Home = () => {
     client.fetch(query).then((data) => {
       setUser(data[0]);
     });
-  }, []);
+  }, [userInfo?.sub]);
 
   useEffect(() => {
     scrollRef.current.scroll(0, 0);
@@ -42,7 +42,7 @@ const Home = () => {
     <section className="flex bg-gray-50 md:flex-row flex-col h-screen transition-height duration-75 ease-out">
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex h-screen flex-initial">
-        <Sidebar />
+        <Sidebar user={user && user} />
       </aside>
 
       {/* Mobile Sidebar */}
